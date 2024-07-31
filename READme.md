@@ -23,7 +23,7 @@ The dataset used in this project is provided as `Uncleaned_DS_jobs.csv`. It incl
 
 ## Entity-Relationship Diagram
 
-![ERD Diagram](CS_JOB Data ER Diagram.png)
+![ERD Diagram](CS_JOB_Data_ERD.png)
 
 ### Relationships:
 
