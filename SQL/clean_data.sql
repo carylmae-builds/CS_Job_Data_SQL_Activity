@@ -1,5 +1,5 @@
 /****************************************************************************************************************************************************
-1 Check for duplicates and handle them                                                                                                             *
+1 Check for duplicates and handle them                                                                                                              *
 -- This procedure to remove duplicates from the companies, locations, and jobs tables.                                                              *
 *****************************************************************************************************************************************************/
 
@@ -22,17 +22,17 @@ END;
 -- Call the procedure for each table with the appropriate columns
 BEGIN
     -- For companies table
-    remove_duplicates('COMPANIES', 'company_name, headquarters, size, founded, type_of_ownership, industry, sector, revenue, competitors');
+    remove_duplicates('company', 'company_name, headquarters, size, founded, type_of_ownership, industry, sector, revenue, competitors');
     -- For locations table
-    remove_duplicates('LOCATIONS', 'location');
+    remove_duplicates('location', 'location');
     -- For jobs table
-    remove_duplicates('JOBS', 'job_title, salary_estimate, job_description, rating, company_id, location_id');
+    remove_duplicates('job', 'job_title, salary_estimate, job_description, rating, company_id, location_id');
 END;
 /
 
 
 /****************************************************************************************************************************************************
-2 I found '-1' and 'Unknown' values in some columns, we have to replace it with 'N/A' instead.                                                     *
+2 I found '-1' and 'Unknown' values in some columns, we have to replace it with 'N/A' instead.                                                      *
 -- This procedure ensures that all occurrences of '-1' and 'Unknown' in the companies, locations, and jobs table are replaced with 'N/A'.           *
 -- This process will iterate through all columns of a specified table and update them based on the criteria.                                        *
 *****************************************************************************************************************************************************/
@@ -70,15 +70,15 @@ END;
 
 -- Call the procedure for the desired table
 BEGIN
-    clean_table('companies');
-    clean_table('locations'); 
-    clean_table('jobs');
+    clean_table('company');
+    clean_table('location'); 
+    clean_table('job');
 END;
 /
 
 
 /****************************************************************************************************************************************************
-3 In our dataset, the salary estimate are formatted as range. We want organize these values and be able to derive insights from it easily.         *
+3 In our dataset, the salary estimate are formatted as range. We want organize these values and be able to derive insights from it easily.          *
 -- In this process, I will be extracting the minimum and maximum salary estimation to another column and calculate the average salary.              *
 *****************************************************************************************************************************************************/
 

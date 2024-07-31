@@ -32,7 +32,7 @@ ORGANIZATION EXTERNAL (
 
 
 -- Insert unique companies data from companies table
-INSERT INTO companies (company_name, headquarters, size, founded, type_of_ownership, industry, sector, revenue, competitors)
+INSERT INTO company (company_name, headquarters, size, founded, type_of_ownership, industry, sector, revenue, competitors)
 SELECT DISTINCT 
     company_name, 
     headquarters, 
@@ -48,7 +48,7 @@ WHERE company_name IS NOT NULL;
 
 
 -- Insert unique locations data from locations table
-INSERT INTO locations (location)
+INSERT INTO location (location)
 SELECT DISTINCT location
 FROM external_ds_jobs
 WHERE location IS NOT NULL;
@@ -56,7 +56,7 @@ WHERE location IS NOT NULL;
 
 
 -- Insert jobs with foreign keys
-INSERT INTO jobs (job_title, salary_estimate, job_description, rating, company_id, location_id)
+INSERT INTO job (job_title, salary_estimate, job_description, rating, company_id, location_id)
 SELECT 
     job_title, 
     salary_estimate, 

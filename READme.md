@@ -21,6 +21,34 @@ The dataset used in this project is provided as `Uncleaned_DS_jobs.csv`. It incl
 - **`data_insight.sql`**: Examples of complex SQL queries involving filtering, aggregating, joining, and grouping data.
 - **`Uncleaned_DS_jobs.csv`**: The dataset used for this project.
 
+## Entity-Relationship Diagram
+
+![ERD Diagram](CS_JOB Data ER Diagram.png)
+
+### Relationships:
+
+#### Company to Job: One-to-Many relationship.
+A single Company can be associated with multiple Jobs.
+company_id in Job table is a foreign key that references company_id in Company table.
+
+#### Location to Job: One-to-Many relationship.
+A single Location can be associated with multiple Jobs.
+location_id in Job table is a foreign key that references location_id in Location table.
+
+### ERD Explanation:
+- Company Table:
+company_id is the primary key (PK).
+company_id is referenced as a foreign key (FK) in the Job table.
+
+- Location Table:
+location_id is the primary key (PK).
+location_id is referenced as a foreign key (FK) in the Job table.
+
+- Job Table:
+job_id is the primary key (PK).
+company_id and location_id are foreign keys (FK) that establish relationships with the Company and Location tables, respectively.
+
+
 ## Setup Instructions
 
 ### Clone the Repository

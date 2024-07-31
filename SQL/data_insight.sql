@@ -1,32 +1,31 @@
 /*****************************************************************************************************************************************************
-1  Calculate the average rating per industry using the rating column in the jobs table and the industry column in the companies table.              *
+1  Calculate the average rating per industry using the rating column in the job table and the industry column in the companies table.               *
 *****************************************************************************************************************************************************/
 SELECT
     c.industry,
     AVG(j.rating) AS average_rating
-FROM jobs j
+FROM job j
 JOIN companies c ON j.company_id = c.company_id
 GROUP BY c.industry
 ORDER BY c.industry;
 
 /*****************************************************************************************************************************************************
-2 Create a new column based on the values from column founded that will calculate the company age based on the year its founded to the year today.  *
+2 Create a new column based on the values from column founded that will calculate the company age based on the year its founded to the year today.   *
 -- This approach will give you a company_age column that reflects how long each company has been in business based on its founding year.             *
 *****************************************************************************************************************************************************/
 
 -- Add the new column for company age
-ALTER TABLE companies
+ALTER TABLE company
 ADD (company_age NUMBER);
 
 -- Calculate and update company age based on the founded year
-UPDATE companies
+UPDATE company
 SET company_age = EXTRACT(YEAR FROM SYSDATE) - founded;
-
 
 COMMIT;
 
-/****************************************************************************************************************************************************
-3 Create a view that simply indicates whether the Location and Headquarters are the same using the data from companies table and locations table.   *
+/*****************************************************************************************************************************************************
+3 Create a view that simply indicates whether the Location and Headquarters are the same using the data from companies table and locations table.    *
 -- This view provides a straightforward way to compare locations and headquarters and determine if they are in the same state.                       *
 -- If there is a same informations in these two columns it means they will work in headquarter of company, otherwise not.                            *
 *****************************************************************************************************************************************************/
@@ -40,7 +39,7 @@ SELECT
         WHEN c.headquarters = l.location THEN 'Y'
         ELSE 'N'
     END AS same_state
-FROM companies c
+FROM company c
 LEFT JOIN locations l ON c.company_id = l.location_id;  
 
 /****************************************************************************************************************************************************
@@ -56,7 +55,7 @@ SELECT
     j.rating,
     c.company_name
 FROM 
-    jobs j
+    job j
 JOIN 
     locations l ON j.location_id = l.location_id
 JOIN 
@@ -68,12 +67,12 @@ FROM job_listings_by_location
 WHERE location = 'New York';
 
 /****************************************************************************************************************************************************
-4 I want to extract common technology keywords of Data Science role from the Job Description column and create boolean columns for each technology.*
+4 I want to extract common technology keywords of Data Science role from the Job Description column and create boolean columns for each technology. *
 -- In the following procedure, it will update the new columns based on whether the keywords are present in the job descriptions.                    *
 *****************************************************************************************************************************************************/
 
--- Alter the jobs table to add the new boolean columns:
-ALTER TABLE jobs
+-- Alter the job table to add the new boolean columns:
+ALTER TABLE job
 ADD (
     requires_python NUMBER(1) DEFAULT 0,
     requires_excel NUMBER(1) DEFAULT 0,
@@ -84,47 +83,47 @@ ADD (
     requires_big_data NUMBER(1) DEFAULT 0
 );
 
--- Create procedure to update these columns in the jobs table:
+-- Create procedure to update these columns in the job table:
 CREATE OR REPLACE PROCEDURE update_technology_flags AS
 BEGIN
 
-    UPDATE jobs
+    UPDATE job
     SET requires_python = CASE
         WHEN LOWER(job_description) LIKE '%python%' THEN 1
         ELSE 0
     END;
 
-    UPDATE jobs
+    UPDATE job
     SET requires_excel = CASE
         WHEN LOWER(job_description) LIKE '%excel%' THEN 1
         ELSE 0
     END;
 
-    UPDATE jobs
+    UPDATE job
     SET requires_hadoop = CASE
         WHEN LOWER(job_description) LIKE '%hadoop%' THEN 1
         ELSE 0
     END;
 
-    UPDATE jobs
+    UPDATE job
     SET requires_spark = CASE
         WHEN LOWER(job_description) LIKE '%spark%' THEN 1
         ELSE 0
     END;
 
-    UPDATE jobs
+    UPDATE job
     SET requires_aws = CASE
         WHEN LOWER(job_description) LIKE '%aws%' THEN 1
         ELSE 0
     END;
 
-    UPDATE jobs
+    UPDATE job
     SET requires_tableau = CASE
         WHEN LOWER(job_description) LIKE '%tableau%' THEN 1
         ELSE 0
     END;
 
-    UPDATE jobs
+    UPDATE job
     SET requires_big_data = CASE
         WHEN LOWER(job_description) LIKE '%big data%' OR LOWER(job_description) LIKE '%bigdata%' THEN 1
         ELSE 0
@@ -147,5 +146,5 @@ SELECT
     CASE WHEN requires_aws = 1 THEN 'TRUE' ELSE 'FALSE' END AS requires_aws,
     CASE WHEN requires_tableau = 1 THEN 'TRUE' ELSE 'FALSE' END AS requires_tableau,
     CASE WHEN requires_big_data = 1 THEN 'TRUE' ELSE 'FALSE' END AS requires_big_data
-FROM jobs;
+FROM job;
 
