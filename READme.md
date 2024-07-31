@@ -12,7 +12,7 @@ Key features:
 - Comprehensive examples of using subqueries, window functions, and Common Table Expressions (CTEs).
 
 ## Dataset
-The dataset used in this project is provided as `Uncleaned_DS_jobs.csv`. It includes job listings with various attributes such as job title, company name, location, salary estimate, and more.
+The dataset used in this project is provided as `Uncleaned_DS_jobs.csv`. It includes web scrapped job posts from glassdoor for data science job listings with various attributes such as job title, company name, location, salary estimate, and more.
 
 ## Repository Contents
 - **`create_tables.sql`**: Script for creating relational tables (`jobs`, `companies`, `locations`).
